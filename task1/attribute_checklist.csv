@@ -1,0 +1,79 @@
+position,column,meaning,postgres_type,entity,blank_rows,distinct_values,max_length,example,flags
+1,as_of_year,Reporting year of the record (always 2017).,integer,Application,0,1,4,2017,
+2,respondent_id,10-character ID of the reporting lender. Unique only together with agency_code.,text,Respondent,0,854,10,62-1532940,"Leading zeros and hyphens (0000451965, 62-1532940); integer would destroy them."
+3,agency_name,Full name of the lender's federal regulator.,text,Agency,0,6,43,Department of Housing and Urban Development,
+4,agency_abbr,"Regulator abbreviation (HUD, CFPB, FDIC, NCUA, OCC, FRS).",text,Agency,0,6,4,HUD,
+5,agency_code,"Regulator code: 1 OCC, 2 FRS, 3 FDIC, 5 NCUA, 7 HUD, 9 CFPB.",integer,Agency,0,6,1,7,
+6,loan_type_name,Label for loan_type.,text,LoanType,0,4,18,Conventional,
+7,loan_type,"1 Conventional, 2 FHA, 3 VA, 4 FSA/RHS.",integer,LoanType,0,4,1,1,
+8,property_type_name,Label for property_type.,text,PropertyType,0,3,61,One-to-four family dwelling (other than manufactured housing),
+9,property_type,"1 one-to-four family, 2 manufactured, 3 multifamily.",integer,PropertyType,0,3,1,1,
+10,loan_purpose_name,Label for loan_purpose.,text,LoanPurpose,0,3,16,Home purchase,
+11,loan_purpose,"1 home purchase, 2 home improvement, 3 refinancing.",integer,LoanPurpose,0,3,1,1,
+12,owner_occupancy_name,Label for owner_occupancy.,text,OwnerOccupancy,0,3,42,Owner-occupied as a principal dwelling,
+13,owner_occupancy,"1 owner-occupied principal dwelling, 2 not owner-occupied, 3 N/A.",integer,OwnerOccupancy,0,3,1,1,Code 3 = not applicable.
+14,loan_amount_000s,Loan amount in thousands of dollars.,integer,Application,154,>1000,6,272,Blank in some rows -> NULL. Max is 6 digits although the PDF says 5.
+15,preapproval_name,Label for preapproval.,text,Preapproval,0,3,29,Not applicable,
+16,preapproval,"1 requested, 2 not requested, 3 not applicable.",integer,Preapproval,0,3,1,3,Code 3 = not applicable.
+17,action_taken_name,Label for action_taken.,text,ActionTaken,0,8,51,Loan purchased by the institution,
+18,action_taken,"Outcome: 1 originated, 2 approved not accepted, 3 denied, 4 withdrawn, 5 incomplete, 6 purchased, 7 preapproval denied, 8 preapproval approved not accepted.",integer,ActionTaken,0,8,1,6,
+19,msamd_name,Name of the Metropolitan Statistical Area / Metropolitan Division.,text,MSA_MD,840,9,44,Camden - NJ,Blank for rural loans AND for msamd 35620/37980 even though the code is present.
+20,msamd,5-digit MSA/MD code.,integer,MSA_MD,725,11,5,15804,Blank -> NULL. No leading zeros in this file.
+21,state_name,State name (always New Jersey).,text,State,0,1,10,New Jersey,
+22,state_abbr,State postal abbreviation (always NJ).,text,State,0,1,2,NJ,
+23,state_code,2-digit FIPS state code (always 34).,integer,State,0,1,2,34,
+24,county_name,County name.,text,County,676,21,17,Camden County,Blank -> NULL.
+25,county_code,FIPS county code within the state.,integer,County,676,21,2,7,"Stored unpadded in the CSV (""3"", not ""003""), so integer round-trips exactly. Blank -> NULL."
+26,census_tract_number,Census tract identifier.,text,Location,697,>1000,7,6035.06,Format NNNN.NN with significant leading zeros (0103.00); numeric would print 103.00. Blank -> NULL.
+27,applicant_ethnicity_name,Label for applicant_ethnicity.,text,Applicant,0,4,81,Not applicable,
+28,applicant_ethnicity,"1 Hispanic/Latino, 2 not Hispanic/Latino, 3 not provided, 4 N/A.",integer,Applicant,0,4,1,4,Codes 3/4 are missing-value codes.
+29,co_applicant_ethnicity_name,Label for co_applicant_ethnicity.,text,CoApplicant,0,5,81,Not applicable,
+30,co_applicant_ethnicity,Same codes as applicant plus 5 = no co-applicant.,integer,CoApplicant,0,5,1,4,Codes 3/4/5 are missing-value codes.
+31,applicant_race_name_1,Label for applicant_race_1.,text,Applicant,0,7,81,Not applicable,
+32,applicant_race_1,"Race code 1-7 (1 AIAN, 2 Asian, 3 Black, 4 NHPI, 5 White, 6 not provided, 7 N/A).",integer,Applicant,0,7,1,7,Codes 6/7 are missing-value codes.
+33,applicant_race_name_2,Label for applicant_race_2.,text,Applicant,347807,5,41,Asian,Mostly blank -> NULL.
+34,applicant_race_2,Additional race #2 (codes 1-5).,integer,Applicant,347807,5,1,2,Mostly blank -> NULL.
+35,applicant_race_name_3,Label for applicant_race_3.,text,Applicant,349420,5,41,White,Mostly blank -> NULL.
+36,applicant_race_3,Additional race #3 (codes 1-5).,integer,Applicant,349420,5,1,5,Mostly blank -> NULL.
+37,applicant_race_name_4,Label for applicant_race_4.,text,Applicant,349533,4,41,Native Hawaiian or Other Pacific Islander,Mostly blank -> NULL.
+38,applicant_race_4,Additional race #4 (codes 1-5).,integer,Applicant,349533,4,1,4,Mostly blank -> NULL.
+39,applicant_race_name_5,Label for applicant_race_5.,text,Applicant,349545,2,5,White,Mostly blank -> NULL.
+40,applicant_race_5,Additional race #5 (codes 1-5).,integer,Applicant,349545,2,1,5,Mostly blank -> NULL.
+41,co_applicant_race_name_1,Label for co_applicant_race_1.,text,CoApplicant,0,8,81,Not applicable,
+42,co_applicant_race_1,Race code 1-8 (8 = no co-applicant).,integer,CoApplicant,0,8,1,7,Codes 6/7/8 are missing-value codes.
+43,co_applicant_race_name_2,Label for co_applicant_race_2.,text,CoApplicant,348972,5,41,White,Mostly blank -> NULL.
+44,co_applicant_race_2,Additional co-applicant race #2 (codes 1-5).,integer,CoApplicant,348972,5,1,5,Mostly blank -> NULL.
+45,co_applicant_race_name_3,Label for co_applicant_race_3.,text,CoApplicant,349532,4,41,Black or African American,Mostly blank -> NULL.
+46,co_applicant_race_3,Additional co-applicant race #3 (codes 1-5).,integer,CoApplicant,349532,4,1,3,Mostly blank -> NULL.
+47,co_applicant_race_name_4,Label for co_applicant_race_4.,text,CoApplicant,349552,3,41,Native Hawaiian or Other Pacific Islander,Mostly blank -> NULL.
+48,co_applicant_race_4,Additional co-applicant race #4 (codes 1-5).,integer,CoApplicant,349552,3,1,4,Mostly blank -> NULL.
+49,co_applicant_race_name_5,Label for co_applicant_race_5.,text,CoApplicant,349558,1,5,White,Mostly blank -> NULL.
+50,co_applicant_race_5,Additional co-applicant race #5 (codes 1-5).,integer,CoApplicant,349558,1,1,5,Mostly blank -> NULL.
+51,applicant_sex_name,Label for applicant_sex.,text,Applicant,0,4,81,Not applicable,
+52,applicant_sex,"1 male, 2 female, 3 not provided, 4 N/A.",integer,Applicant,0,4,1,4,Codes 3/4 are missing-value codes.
+53,co_applicant_sex_name,Label for co_applicant_sex.,text,CoApplicant,0,5,81,Not applicable,
+54,co_applicant_sex,Same codes plus 5 = no co-applicant.,integer,CoApplicant,0,5,1,4,Codes 3/4/5 are missing-value codes.
+55,applicant_income_000s,Gross annual income in thousands of dollars.,integer,Applicant,50515,>1000,7,70,"Blank -> NULL (about 14% of rows, mostly purchased loans). Max is 7 digits although the PDF says 4."
+56,purchaser_type_name,Label for purchaser_type.,text,PurchaserType,0,10,76,Fannie Mae (FNMA),
+57,purchaser_type,Who bought the loan; 0 = not originated/not sold in 2017.,integer,PurchaserType,0,10,1,1,"Code 0 is a real value, not missing."
+58,denial_reason_name_1,Label for denial_reason_1.,text,Denial,312346,9,46,Debt-to-income ratio,Blank unless the application was denied -> NULL.
+59,denial_reason_1,"Denial reason #1 (1 DTI, 2 employment, 3 credit history, 4 collateral, 5 cash, 6 unverifiable, 7 incomplete, 8 MI denied, 9 other).",integer,Denial,312346,9,1,1,Blank unless the application was denied -> NULL.
+60,denial_reason_name_2,Label for denial_reason_2.,text,Denial,342671,9,46,Credit history,Blank unless the application was denied -> NULL.
+61,denial_reason_2,"Denial reason #2 (1 DTI, 2 employment, 3 credit history, 4 collateral, 5 cash, 6 unverifiable, 7 incomplete, 8 MI denied, 9 other).",integer,Denial,342671,9,1,3,Blank unless the application was denied -> NULL.
+62,denial_reason_name_3,Label for denial_reason_3.,text,Denial,348584,9,46,Credit history,Blank unless the application was denied -> NULL.
+63,denial_reason_3,"Denial reason #3 (1 DTI, 2 employment, 3 credit history, 4 collateral, 5 cash, 6 unverifiable, 7 incomplete, 8 MI denied, 9 other).",integer,Denial,348584,9,1,3,Blank unless the application was denied -> NULL.
+64,rate_spread,"APR spread over the average prime offer rate, in percentage points (only for higher-priced originations).","numeric(4,2)",Application,340747,494,5,01.90,"Zero-padded to DD.DD (01.50); numeric prints 1.50, so the export must use to_char(rate_spread, 'FM00.00'). Blank -> NULL."
+65,hoepa_status_name,Label for hoepa_status.,text,HOEPAStatus,0,2,16,Not a HOEPA loan,
+66,hoepa_status,"1 HOEPA (high-cost) loan, 2 not HOEPA.",integer,HOEPAStatus,0,2,1,2,
+67,lien_status_name,Label for lien_status.,text,LienStatus,0,4,29,Not applicable,
+68,lien_status,"1 first lien, 2 subordinate, 3 not secured, 4 N/A (purchased loans).",integer,LienStatus,0,4,1,4,Code 4 = not applicable.
+69,edit_status_name,Label for edit_status.,text,EditStatus,349563,0,0,,Blank in every row -> NULL.
+70,edit_status,"Edit-check failure code (blank = none; 5, 6, 7).",integer,EditStatus,349563,0,0,,Blank in every row -> NULL.
+71,sequence_number,Per-lender record number. Becomes the table's primary key.,integer PRIMARY KEY,Application,349563,0,0,,"Blank in every row. Task 3 fills it 1..N in file order, and the export must write it back as """" and ORDER BY it."
+72,population,Total population of the census tract.,integer,Location,697,>1000,5,6278,Blank -> NULL.
+73,minority_population,"Minority share of the tract population, in percent.",numeric,Location,697,>1000,19,27.829999923706055,"Up to 17 decimal places (14.149999618530273) and also 19.0-style values. real loses digits and double precision prints 19.0 as 19, so use unconstrained numeric. Blank -> NULL."
+74,hud_median_family_income,FFIEC/HUD median family income (dollars) for the tract's MSA/MD.,integer,Location,697,9,5,91500,Blank -> NULL.
+75,tract_to_msamd_income,Tract median family income as a % of the MSA/MD median.,numeric,Location,697,>1000,18,144.7100067138672,"Same precision issue as minority_population, so use unconstrained numeric. Blank -> NULL."
+76,number_of_owner_occupied_units,Owner-occupied dwellings in the tract.,integer,Location,697,>1000,4,1975,Blank -> NULL.
+77,number_of_1_to_4_family_units,One-to-four family dwellings in the tract.,integer,Location,697,>1000,4,2018,Blank -> NULL.
+78,application_date_indicator,"0 = on/after 2004-01-01, 1 = before, 2 = N/A.",integer,Application,349563,0,0,,Blank in every row -> NULL.
